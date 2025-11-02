@@ -1,0 +1,45 @@
+version: 2
+
+sources:
+  - name: weather_data
+    schema: public
+    tables:
+      - name: weather_daily_raw  # <--logical name used in the models DBT reference
+        identifier: weather_daily_raw # <-- actual physical table queried
+
+      - name: weather_hourly_raw #behaves as an alias
+        identifier: weather_hourly_raw # actual table being used from the database
+
+  - name: flights_data
+    schema: public
+    tables:
+      - name: flights
+        identifier: flights
+
+      - name: airports
+        identifier: airports
+
+      - name: regions
+        identifier: regions # 
+
+  - name: northwind
+    schema: public
+    tables:
+      - name: customers
+        identifier: northwind_customers
+
+# This is for documentation purposes, ALWAYS DOCUMENT!
+models:
+  - name: stg_weather_daily
+    description: "Flattened daily weather data from the raw JSON source."
+    columns:
+      - name: airport_code
+        description: "IATA airport code."
+      - name: station_id
+        description: "Weather station identifier."
+      - name: date
+        description: "Date of observation."
+      - name: avg_temp_c
+        description: "Average temperature (°C)."
+      - name: precipitation_mm
+        description: "Precipitation amount in millimeters."
